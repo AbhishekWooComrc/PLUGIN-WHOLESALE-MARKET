@@ -204,11 +204,11 @@ class Woocommerce_Wholesale_Market {
 		$this->loader->add_action( 'woocommerce_created_customer', $plugin_public, 'ced_save_wholesale_shipping_option_register');	
 		$this->loader->add_action( 'woocommerce_before_add_to_cart_form', $plugin_public, 'ced_show_wholesale_price_singlepage',1,1);
 		$this->loader->add_action( 'woocommerce_after_shop_loop_item', $plugin_public, 'ced_show_wholesale_price_singlepage');
-		// $this->loader->add_action( 'woocommerce_before_add_to_cart_button', $plugin_public, 'ced_wholesale_price_variation_page');
-		$this->loader->add_action( 'woocommerce_get_price_html', $plugin_public, 'change_product_price',1,2);
-		// add_filter( 'woocommerce_get_price_html', 'change_product_price' );
-		
-
+		$this->loader->add_filter('woocommerce_available_variation', $plugin_public,'ced_show_wholesell_price_variation_product', 10, 3 );
+		$this->loader->add_filter('woocommerce_before_calculate_totals', $plugin_public,'ced_setting_of_minimum_qunatity_for_wholesale_applied_for_simple_product',10,1);
+		$this->loader->add_filter('woocommerce_before_calculate_totals', $plugin_public,'ced_setting_of_minimum_qunatity_for_wholesale_applied_for_variable_product',10,1);		
+		// ced_setting_of_minimum_qunatity_for_wholesale_applied_for_variable_product
+		// add_action( 'woocommerce_before_calculate_totals', 'misha_recalc_price' );
 	}
 
 	/**
