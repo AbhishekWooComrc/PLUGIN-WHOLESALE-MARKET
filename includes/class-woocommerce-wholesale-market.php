@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Woocommerce_Wholesale_Market
  * @subpackage Woocommerce_Wholesale_Market/includes
- * @author     Abhishek Pandey <Abhishekpandey@cedcoss.com>
+ * author     Abhishek Pandey <Abhishekpandey@cedcoss.com>
  */
 class Woocommerce_Wholesale_Market {
 
@@ -34,7 +34,7 @@ class Woocommerce_Wholesale_Market {
 	 * the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
+	 * access   protected
 	 * @var      Woocommerce_Wholesale_Market_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -43,7 +43,7 @@ class Woocommerce_Wholesale_Market {
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
+	 * access   protected
 	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
@@ -52,7 +52,7 @@ class Woocommerce_Wholesale_Market {
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   protected
+	 * access   protected
 	 * @var      string    $version    The current version of the plugin.
 	 */
 	protected $version;
@@ -95,7 +95,7 @@ class Woocommerce_Wholesale_Market {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
+	 * access   private
 	 */
 	private function load_dependencies() {
 
@@ -133,7 +133,7 @@ class Woocommerce_Wholesale_Market {
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
-	 * @access   private
+	 * access   private
 	 */
 	private function set_locale() {
 
@@ -148,7 +148,7 @@ class Woocommerce_Wholesale_Market {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
+	 * access   private
 	 */
 	private function define_admin_hooks() {
 
@@ -165,23 +165,25 @@ class Woocommerce_Wholesale_Market {
 		// save the content of sub section
 		$this->loader->add_action( 'woocommerce_settings_save_wholesalemarket', $plugin_admin, 'save' );
 		// create a custom feild for whole sale price and quantityfor general page
-		$this->loader->add_action( 'woocommerce_product_options_pricing', $plugin_admin, 'ced_wholesale_price_quntity_feild' );
+		$this->loader->add_action( 'woocommerce_product_options_pricing', $plugin_admin, 'ced_wholesale_price_quantity_feild' );
 		// create custom feild for variation page
 		$this->loader->add_action( 'woocommerce_variation_options_pricing', $plugin_admin, 'ced_wholesale_price_quantity_feild_for_varition', 10, 3  );
 		// added fro save the data of variation content 
 		$this->loader->add_action( 'woocommerce_save_product_variation', $plugin_admin, 'ced_save_variation_wholesale_data', 10, 3  );
 		// added for save the data fo general feilds
 		$this->loader->add_action( 'woocommerce_process_product_meta', $plugin_admin, 'ced_save_general_wholesale_data', 10, 1  );
-
 		// add for create a custom columns in user 'Wholesale Market'
 		$this->loader->add_action( 'manage_users_columns', $plugin_admin, 'ced_add_user_custom_column');
 		// add for content of custom column 'Wholesale market'
-		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'ced_content_for_user_custom_column',1,3 );
+		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'ced_content_for_user_custom_column', 1, 3 );
+		// add for create a setting for change the user to wholesale user in edit-user.php
 		$this->loader->add_action( 'edit_user_profile', $plugin_admin, 'ced_create_setting_user_to_wholesale_user');
 		$this->loader->add_action( 'show_user_profile', $plugin_admin, 'ced_create_setting_user_to_wholesale_user');
 		$this->loader->add_action( 'edit_user_profile_update', $plugin_admin, 'ced_save_setting_user_to_wholesale_user_data');
-
-		$this->loader->add_action( 'wp_ajax_ced_ajax_for_usernormal_to_wholeseller', $plugin_admin, 'ced_normaluser_to_wholeseller_approval',1, 1);
+		// add for call the ajax in admin end
+		$this->loader->add_action( 'wp_ajax_ced_ajax_for_usernormal_to_wholeseller', $plugin_admin, 'ced_normaluser_to_wholeseller_approval', 1, 1);
+		$this->loader->add_action( 'admin_notices', $plugin_admin, 'sample_admin_notice__error', 1, 1);
+		// add_action( 'admin_notices', 'sample_admin_notice__error' );
 
 
 
@@ -192,7 +194,7 @@ class Woocommerce_Wholesale_Market {
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
-	 * @access   private
+	 * access   private
 	 */
 	private function define_public_hooks() {
 
@@ -200,15 +202,21 @@ class Woocommerce_Wholesale_Market {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		// add for create a shipping option(a checkbox) in register page
 		$this->loader->add_action( 'woocommerce_register_form', $plugin_public, 'ced_create_wholoesale_shipping_option');
+		// add for save the shipping option (a checkbox) of register page 
 		$this->loader->add_action( 'woocommerce_created_customer', $plugin_public, 'ced_save_wholesale_shipping_option_register');	
-		$this->loader->add_action( 'woocommerce_before_add_to_cart_form', $plugin_public, 'ced_show_wholesale_price_singlepage',1,1);
+		// add for show the wholesale price on single page
+		$this->loader->add_action( 'woocommerce_before_add_to_cart_form', $plugin_public, 'ced_show_wholesale_price_singlepage', 1, 1);
+		//  add for show the wholesale price on shop page
 		$this->loader->add_action( 'woocommerce_after_shop_loop_item', $plugin_public, 'ced_show_wholesale_price_singlepage');
-		$this->loader->add_filter('woocommerce_available_variation', $plugin_public,'ced_show_wholesell_price_variation_product', 10, 3 );
-		$this->loader->add_filter('woocommerce_before_calculate_totals', $plugin_public,'ced_setting_of_minimum_qunatity_for_wholesale_applied_for_simple_product',10,1);
-		$this->loader->add_filter('woocommerce_before_calculate_totals', $plugin_public,'ced_setting_of_minimum_qunatity_for_wholesale_applied_for_variable_product',10,1);		
-		// ced_setting_of_minimum_qunatity_for_wholesale_applied_for_variable_product
-		// add_action( 'woocommerce_before_calculate_totals', 'misha_recalc_price' );
+		//  add for show the wholesale price on shop page and single page, for variable products
+		$this->loader->add_filter('woocommerce_available_variation', $plugin_public, 'ced_show_wholesell_price_variation_product', 10, 3 );
+		//  add for calculate  the price according to the quantity value (setted by admin) specially for general products
+		$this->loader->add_filter('woocommerce_before_calculate_totals', $plugin_public, 'ced_setting_of_minimum_qunatity_for_wholesale_applied_for_simple_product', 10, 1);
+		//  add for calculate the price according to the quantity value (setted by admin) specially for varaible products
+		$this->loader->add_filter('woocommerce_before_calculate_totals', $plugin_public, 'ced_setting_of_minimum_qunatity_for_wholesale_applied_for_variable_product', 10, 1);		
+
 	}
 
 	/**

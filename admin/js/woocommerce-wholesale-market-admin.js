@@ -28,17 +28,77 @@
 // 	 * Although scripts in the WordPress core, Plugins and Themes may be
 // 	 * practising this, we should strive to set a better example in our own work. 
 $(document).ready(function(){
+	// for general subsection
+	$("#woocommerce_enable_disable__setting").on('change', function() {
+		if ($("#woocommerce_enable_disable__setting").is(':checked')) {
+			$('.titledesc').show(1000);
+			$('.forminp-radio').show();
+			$('.forminp-text').show();
+		}
+		else {
+			$('.titledesc').hide(100);
+			$('.forminp-radio').hide();
+			$('.forminp-text').hide();
+		}
+	});
+	// for inventory sub section
+	$('#enable_minmimum_qunatity_wholesale_settings').click(function(){
+		if ($("#enable_minmimum_qunatity_wholesale_settings").is(':checked')) {
+			$('.titledesc').show(1000);
+			$('.forminp-radio').show();
+			$('input:radio[name="wholesale_market_set_min_qty"]').change(function(){
+				if($(this).val() == 'set_common_min_qty_all_product'){
+					$('#wholesale_minimum_quantity').show();
+				} else {
+					$('#wholesale_minimum_quantity').hide();
+				}
+			});
+		}
+		else {
+			$('.titledesc').hide(100);
+			$('.forminp-radio').hide();
+			$('#wholesale_minimum_quantity').hide();
+		}
+	});
+	//wholesale price validation for general products
+	if($('#general_wholesale_price_feild').length > 0 && $('#general_wholesale_price_feild').val() != '')
+	{
+		$('#publish').click(function(e){
+			// alert('heklllooo');
+			e.preventDefault();
+			let reg_price = parseInt($('#_regular_price').val());
+			let sale_price = parseInt($('#_sale_price').val());
+			let wholsale_price = parseInt($('#general_wholesale_price_feild').val());
+			if(sale_price > 0) {
+				if(wholsale_price >= sale_price ) 
+				{
+					alert('wholesale price should lesser than sale price');
+					$('#general_wholesale_price_feild').focus();
+				}
+				else if(wholsale_price >= reg_price ) 
+				{
+					alert('wholesale price should lesser than regular price');
+					$('#general_wholesale_price_feild').focus();
+				} 
+					$('#post').submit();
+				
+			} 			
+		});
+	}
+	// wholesale price validation for variable products
+	// if($('#variable_product_options').length > 0)
+	// {
+	// 	$('#publish').click(function(e){
+	// 		e.preventDefault();
+	// 		alert('come on');
+	// 		for(let i=0;i<=5;i++){
+	// 			let val=$("variation_wholesale_price["+i+"]").val();
+	// 			console.log(val);
+	// 		}		
+	// 	});
+	// }
 
-// 	$("#woocommerce_enable_disable_setting").on('change', function() {
-// 	  if ($("#woocommerce_enable_disable_setting").is(':checked')) {
-// 	  	$("input[name='wholesale_market_prices_show_user']").show();
-// 	  	$("input[name='woocommerce_wholesale_settings']").show();
-// 	  }
-// 	  else {
-// 	    	$("input[name='wholesale_market_prices_show_user']").hide();
-// 	    	$("input[name='woocommerce_wholesale_settings']").hide();
-// 	  }
-// });
+	// ajax for change the normal user to wholeseller user
 	$('.normal_to_wholeseller').click(function(){
 		let action = 'ced_ajax_for_usernormal_to_wholeseller';
 		let clicked = 'yes_ready_to_approved';
@@ -54,8 +114,5 @@ $(document).ready(function(){
 			}
 		});
 	});
-
-	
-
-})
+});
 })( jQuery );

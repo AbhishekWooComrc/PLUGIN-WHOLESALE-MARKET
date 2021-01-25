@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    Woocommerce_Wholesale_Market
  * @subpackage Woocommerce_Wholesale_Market/includes
- * @author     Abhishek Pandey <Abhishekpandey@cedcoss.com>
+ * author     Abhishek Pandey <Abhishekpandey@cedcoss.com>
  */
 class Woocommerce_Wholesale_Market_Deactivator {
 
