@@ -31,11 +31,11 @@ class Woocommerce_Wholesale_Market_Activator {
 	 */
 	public static function ced_add_role_wholeseller() {
 		add_role(
-		'wholeseller', //  System name of the role.
-		__( 'Wholeseller'  ), // Display name of the role.
-		array(
-			'read'  => true,
-		)
-	);
+			'wholeseller', // System name of the role.
+			__( 'Wholeseller' ), // Display name of the role.
+			array(
+				'read' => true,
+			)
+		);
 	}
 }

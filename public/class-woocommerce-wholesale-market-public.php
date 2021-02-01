@@ -44,13 +44,13 @@ class Woocommerce_Wholesale_Market_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 public function __construct( $plugin_name, $version ) {
 
 	$this->plugin_name = $plugin_name;
-	$this->version = $version;
+	$this->version     = $version;
 
 }
 
@@ -98,7 +98,7 @@ public function enqueue_scripts() {
 
 	wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woocommerce-wholesale-market-public.js', array( 'jquery' ), $this->version, false );
 
-}	
+}
 
 
 /**
@@ -111,12 +111,12 @@ public function enqueue_scripts() {
 public function ced_create_wholoesale_shipping_option() {
 	?>
 	<label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
-	<input  name="register_wholesale_shipping" type="checkbox" id="register_wholesale_shipping" value="login_as_wholesaller" /> <span><?php esc_html_e( 'Shop as Wholeseller (Hey user if you want to shop as a wholeseller so please check this box )', 'woocommerce' ); ?></span>
+	<input  name="register_wholesale_shipping" type="checkbox" id="register_wholesale_shipping" value="login_as_wholesaller" /> <span><?php esc_html_e( 'Shop as Wholeseller (Hey user if you want to shop as a wholeseller so please check this box )', 'woocommerce-wholesale-market' ); ?></span>
 		</label>
 	<?php
 }
 
-		
+
 /**
  * Ced_save_wholoesale_shipping_option_register
  * Description : save the checkbox value(created for shop as a wholeseller)
@@ -127,9 +127,9 @@ public function ced_create_wholoesale_shipping_option() {
  */
 public function ced_save_wholoesale_shipping_option_register( $user_id ) {
 	global $post;
-	if ( isset($_POST['register_wholesale_shipping'])) {
-		$register_shiping_wholeseller = sanitize_key($_POST['register_wholesale_shipping']);
-		if ( '' !=   $register_shiping_wholeseller  ) {
+	if ( isset( $_POST['register_wholesale_shipping'] ) ) {
+		$register_shiping_wholeseller = sanitize_key( $_POST['register_wholesale_shipping'] );
+		if ( '' != $register_shiping_wholeseller ) {
 			update_user_meta( $user_id, 'register_wholesale_shipping', esc_attr( $register_shiping_wholeseller ) );
 		}
 	}
@@ -144,15 +144,15 @@ public function ced_save_wholoesale_shipping_option_register( $user_id ) {
  * @return void
  */
 public function ced_show_wholesale_price_singlepage()
-{ 
+{
 	global $post;
-	$show_wholesell_setting = get_option('wholesale_market_prices_show_user_setting', 1);
-	$prefix_for_wholesell = get_option('wholesale_price_prefix', 1);
+	$show_wholesell_setting = get_option( 'wholesale_market_prices_show_user_setting', 1 );
+	$prefix_for_wholesell   = get_option( 'wholesale_price_prefix', 1 );
 	if ( 'show_all_customer' == $show_wholesell_setting ) {
-		$wholesale_price = get_post_meta(  $post->ID, 'general_wholesale_price_feild', 1);
-		if ( ''!==$wholesale_price ) {
+		$wholesale_price    = get_post_meta( $post->ID, 'general_wholesale_price_feild', 1 );
+		if ( '' !== $wholesale_price ) {
 ?>
-			<h4>W.S Price = <?php echo esc_attr($prefix_for_wholesell); ?> <?php echo esc_attr(get_woocommerce_currency_symbol( $args['currency'] )) . esc_attr($wholesale_price) ; ?></h4>
+			<h4>W.S Price = <?php echo esc_attr( $prefix_for_wholesell ); ?> <?php echo esc_attr( get_woocommerce_currency_symbol( $args['currency'] ) ) . esc_attr( $wholesale_price ); ?></h4>
 <?
 		}
 	} else {
@@ -164,13 +164,14 @@ public function ced_show_wholesale_price_singlepage()
 				$wholesale_price = get_post_meta(  $post->ID,'general_wholesale_price_feild', 1);
 				if ($wholesale_price !=='') {
  ?>
-					<h4>W.S Price = <?php echo esc_attr($prefix_for_wholesell); ?> <?php echo esc_attr(get_woocommerce_currency_symbol( $args['currency'] )) . esc_attr($wholesale_price) ; ?></h4>
+					<h4>W.S Price = <?php echo esc_attr( $prefix_for_wholesell ); ?> <?php echo esc_attr( get_woocommerce_currency_symbol( $args['currency'] ) ) . esc_attr( $wholesale_price ); ?></h4>
 <?
 				}
 			}
 		}
 	}	
 }
+
 
 /**
  * Ced_show_wholesell_price_variation_product
