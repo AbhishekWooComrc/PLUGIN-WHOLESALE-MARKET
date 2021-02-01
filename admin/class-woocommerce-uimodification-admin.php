@@ -99,11 +99,5 @@ class Woocommerce_Uimodification_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/woocommerce-uimodification-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
-	// creating a new sub tab in API settings
-
-function add_subtab( $settings_tabs ) {
-    $settings_tabs['custom_settings'] = __( 'Custom Settings', 'woocommerce-custom-settings-tab' );
-    return $settings_tabs;
-}
 
 }
